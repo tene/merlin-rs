@@ -42,8 +42,9 @@ fn get_pages(conn: db::Conn) -> Template {
 }
 
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+fn index() -> Template {
+    let mut ctx: HashMap<String, String> = HashMap::new();
+    Template::render("index", ctx)
 }
 
 fn main() {

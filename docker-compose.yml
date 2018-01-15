@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  merlin-db:
+    image: postgres
+    restart: always
+    ports:
+    - "5432:5432"
+    volumes:
+    - merlindb-data:/var/lib/postgresql/data/merlin
+    environment:
+      PGDATA: /var/lib/postgresql/data/merlin
+      POSTGRES_DB: merlin
+      POSTGRES_USER: merlin
+volumes:
+  merlindb-data: {}

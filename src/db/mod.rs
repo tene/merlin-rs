@@ -6,7 +6,6 @@ use std::ops::Deref;
 use rocket::http::Status;
 use rocket::request::{self, FromRequest};
 use rocket::{Outcome, Request, State};
-use diesel::prelude::*;
 use diesel::pg::PgConnection;
 use self::dotenv::dotenv;
 use std::env;

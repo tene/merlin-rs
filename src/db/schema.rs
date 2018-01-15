@@ -33,6 +33,13 @@ table! {
 }
 
 table! {
+    page (name) {
+        name -> Varchar,
+        text -> Text,
+    }
+}
+
+table! {
     spell (name) {
         name -> Varchar,
         description -> Text,
@@ -68,21 +75,21 @@ table! {
     }
 }
 
-table! {
-    page (name) {
-        name -> Varchar,
-        text -> Text,
-    }
-}
+joinable!(spell_category -> category (category_id));
+joinable!(spell_category -> spell (spell_id));
+joinable!(spell_component -> component (component_id));
+joinable!(spell_component -> spell (spell_id));
+joinable!(spell_produces -> component (component_id));
+joinable!(spell_produces -> spell (spell_id));
 
 allow_tables_to_appear_in_same_query!(
     category,
+    category_link,
     component,
+    component_subset,
     page,
     spell,
-    category_link,
     spell_category,
     spell_component,
     spell_produces,
-    component_subset,
 );

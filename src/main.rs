@@ -1,3 +1,4 @@
+#![feature(nll)]
 #![feature(plugin)]
 #![plugin(rocket_codegen)]
 #[macro_use]

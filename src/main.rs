@@ -17,12 +17,17 @@ mod db;
 
 extern crate rocket_contrib;
 use db::models::Page;
-use rocket_contrib::Json;
+use std::collections::HashMap;
+use rocket_contrib::Template;
+
 #[get("/pages")]
-fn get_pages(conn: db::Conn) -> QueryResult<Json<Vec<Page>>> {
-    db::schema::page::table
+fn get_pages(conn: db::Conn) -> Template {
+    let mut ctx = HashMap::new();
+    let pages = db::schema::page::table
         .load::<Page>(&*conn)
-        .map(|pages| Json(pages))
+        .expect("Failed to fetch pages");
+    ctx.insert("pages", pages);
+    Template::render("pages", ctx)
 }
 
 #[get("/")]
@@ -35,5 +40,6 @@ fn main() {
     rocket::ignite()
         .manage(db::init_pool())
         .mount("/", routes![index, get_pages])
+        .attach(Template::fairing())
         .launch();
 }

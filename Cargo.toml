@@ -16,4 +16,4 @@ serde_derive = "*"
 [dependencies.rocket_contrib]
 version = "*"
 default-features = false
-features = ["json"]
+features = ["json", "handlebars_templates","msgpack"]

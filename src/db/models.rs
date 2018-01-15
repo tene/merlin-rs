@@ -1,20 +1,11 @@
-#[derive(Queryable, Serialize, Deserialize)]
-pub struct Page {
+use diesel::data_types::PgInterval;
+
+#[derive(Queryable)]
+pub struct Category {
     pub name: String,
-    pub text: String,
+    pub abbr: String,
+    pub description: String,
 }
-/*
-CREATE TABLE public.component
-(
-  name character varying(256) NOT NULL,
-  description text NOT NULL,
-  unit character varying(256) NOT NULL DEFAULT 'units'::character varying,
-  cost real NOT NULL DEFAULT 0,
-  weight real NOT NULL DEFAULT 0,
-  volume real NOT NULL DEFAULT 0,
-  CONSTRAINT component_pkey PRIMARY KEY (name)
-)
-*/
 
 #[derive(Queryable)]
 pub struct Component {
@@ -24,4 +15,19 @@ pub struct Component {
     pub cost: f32,
     pub weight: f32,
     pub volume: f32,
+}
+
+#[derive(Queryable, Serialize)]
+pub struct Page {
+    pub name: String,
+    pub text: String,
+}
+
+#[derive(Queryable)]
+pub struct Spell {
+    pub name: String,
+    pub description: String,
+    pub range: f32,
+    pub casting_time: PgInterval,
+    pub duration: Option<PgInterval>,
 }

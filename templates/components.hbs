@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Components</title>
+</head>
+
+<body>
+    <h1>Components</h1>
+    <ul>
+        {{#each components}}
+        <li>
+            <a href="/component/{{this.name}}">{{this.name}}</a>
+        </li>
+        {{/each}}
+    </ul>
+</body>
+
+</html>

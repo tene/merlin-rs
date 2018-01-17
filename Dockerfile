@@ -10,7 +10,8 @@ RUN rm /app/target/*/merlin ; cargo build --release
 
 FROM rustlang/rust:nightly
 WORKDIR /app
-COPY run.sh templates Rocket.toml /app/
+COPY run.sh Rocket.toml /app/
+COPY templates /app/templates/
 COPY --from=builder /app/target/release/merlin /app/merlin
 
 CMD ["/app/run.sh"]

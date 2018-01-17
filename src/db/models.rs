@@ -1,13 +1,13 @@
 use diesel::data_types::PgInterval;
 
-#[derive(Queryable)]
+#[derive(Queryable, Serialize)]
 pub struct Category {
     pub name: String,
     pub abbr: String,
     pub description: String,
 }
 
-#[derive(Queryable)]
+#[derive(Queryable, Serialize)]
 pub struct Component {
     pub name: String,
     pub description: String,

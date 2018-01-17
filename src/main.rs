@@ -16,9 +16,32 @@ use diesel::prelude::*;
 mod db;
 
 extern crate rocket_contrib;
-use db::models::{Category, Component, Page};
+use db::models::{Category, Component, Page, Spell};
 use std::collections::HashMap;
 use rocket_contrib::Template;
+
+#[get("/spell/<name>")]
+fn get_single_spell(conn: db::Conn, name: String) -> Template {
+    use db::schema::spell::dsl::spell;
+    let mut ctx = HashMap::new();
+    let item = spell
+        .find(name)
+        .get_result::<Spell>(&*conn)
+        .expect("Failed to fetch spell");
+    ctx.insert("spell", item);
+    Template::render("spell", ctx)
+}
+#[get("/spells")]
+fn get_spells(conn: db::Conn) -> Template {
+    use db::schema::spell::dsl::spell;
+    let mut ctx = HashMap::new();
+    let items = spell
+        .order(db::schema::spell::name)
+        .load::<Spell>(&*conn)
+        .expect("Failed to fetch spells");
+    ctx.insert("spells", items);
+    Template::render("spells", ctx)
+}
 
 #[get("/category/<name>")]
 fn get_single_category(conn: db::Conn, name: String) -> Template {
@@ -107,7 +130,9 @@ fn main() {
                 get_components,
                 get_single_component,
                 get_categories,
-                get_single_category
+                get_single_category,
+                get_spells,
+                get_single_spell
             ],
         )
         .attach(Template::fairing())

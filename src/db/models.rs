@@ -23,11 +23,11 @@ pub struct Page {
     pub text: String,
 }
 
-#[derive(Queryable)]
+#[derive(Queryable, Serialize)]
 pub struct Spell {
     pub name: String,
     pub description: String,
     pub range: f32,
-    pub casting_time: PgInterval,
-    pub duration: Option<PgInterval>,
+    //pub casting_time: PgInterval,
+    //pub duration: Option<PgInterval>,
 }

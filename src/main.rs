@@ -49,9 +49,11 @@ fn index() -> Template {
 
 fn main() {
     //let conn = establish_connection();
+    println!("Started!");
     rocket::ignite()
         .manage(db::init_pool())
         .mount("/", routes![index, get_pages, get_single_page])
         .attach(Template::fairing())
         .launch();
+    println!("Exiting!");
 }

@@ -16,19 +16,33 @@ use diesel::prelude::*;
 mod db;
 
 extern crate rocket_contrib;
-use db::models::{Category, Component, Page, Spell};
+use db::models::{Category, Component, Page, Spell, SpellCategory};
 use std::collections::HashMap;
 use rocket_contrib::Template;
+
+#[derive(Serialize)]
+struct SpellContext {
+    spell: Spell,
+    categories: Vec<SpellCategory>,
+}
 
 #[get("/spell/<name>")]
 fn get_single_spell(conn: db::Conn, name: String) -> Template {
     use db::schema::spell::dsl::spell;
-    let mut ctx = HashMap::new();
+    use db::schema::spell_category::dsl::spell_category;
     let item = spell
         .find(name)
         .get_result::<Spell>(&*conn)
         .expect("Failed to fetch spell");
-    ctx.insert("spell", item);
+    let cats = spell_category
+        .filter(db::schema::spell_category::dsl::spell_id.eq(&item.name))
+        .order(db::schema::spell_category::level)
+        .load::<SpellCategory>(&*conn)
+        .expect("Failed to fetch categories");
+    let ctx = SpellContext {
+        spell: item,
+        categories: cats,
+    };
     Template::render("spell", ctx)
 }
 #[get("/spells")]
@@ -112,8 +126,8 @@ fn get_pages(conn: db::Conn) -> Template {
 
 #[get("/")]
 fn index() -> Template {
-    let mut ctx: HashMap<String, String> = HashMap::new();
-    Template::render("index", ctx)
+    //let mut ctx: HashMap<String, String> = HashMap::new();
+    Template::render("index", "")
 }
 
 fn main() {

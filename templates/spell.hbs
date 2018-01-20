@@ -8,7 +8,14 @@
 
 <body>
     <h1>Spell: {{spell.name}}</h1>
-    {{spell.description}}
+    <div style="white-space: pre-wrap;">{{spell.description}}</div>
+    <ul>
+        {{#each categories}}
+        <li>
+            <a href="/category/{{this.category_id}}">{{this.category_id}}</a>: {{this.level}}
+        </li>
+        {{/each}}
+    </ul>
 </body>
 
 </html>

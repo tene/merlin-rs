@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Page: {{page.name}}</title>
+</head>
+
+<body>
+    <h1>Page: {{page.name}}</h1>
+    <form action="/page" method="post">
+        <input type="hidden" value="{{page.name}}" name="name" />
+        <textarea autofocus="true" rows=20 cols=100 name="text">{{page.text}}</textarea>
+        <br/>
+        <input type="submit" />
+    </form>
+</body>
+
+</html>

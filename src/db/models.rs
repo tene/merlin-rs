@@ -1,13 +1,17 @@
 use db::schema::*;
 
-#[derive(Queryable, Serialize)]
+#[derive(Queryable, Serialize, AsChangeset)]
+#[table_name = "category"]
+#[primary_key(name)]
 pub struct Category {
     pub name: String,
     pub abbr: String,
     pub description: String,
 }
 
-#[derive(Queryable, Serialize)]
+#[derive(Queryable, Serialize, AsChangeset)]
+#[table_name = "component"]
+#[primary_key(name)]
 pub struct Component {
     pub name: String,
     pub description: String,
@@ -17,7 +21,9 @@ pub struct Component {
     pub volume: f32,
 }
 
-#[derive(Queryable, Serialize)]
+#[derive(Identifiable, Queryable, Insertable, Serialize, AsChangeset, FromForm)]
+#[table_name = "page"]
+#[primary_key(name)]
 pub struct Page {
     pub name: String,
     pub text: String,
@@ -44,7 +50,7 @@ impl Serialize for Interval {
 }
 */
 
-#[derive(Identifiable, Queryable, PartialEq, Serialize)]
+#[derive(Identifiable, Queryable, PartialEq, Serialize, AsChangeset)]
 #[table_name = "spell"]
 #[primary_key(name)]
 pub struct Spell {

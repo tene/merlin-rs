@@ -1,5 +1,6 @@
 #![feature(nll)]
 #![feature(plugin)]
+#![feature(custom_derive)]
 #![plugin(rocket_codegen)]
 #[macro_use]
 extern crate diesel;
@@ -12,6 +13,7 @@ extern crate serde_json;
 extern crate serde_derive;
 
 use diesel::prelude::*;
+//use diesel::query_builder::AsChangeset;
 
 mod db;
 
@@ -19,6 +21,8 @@ extern crate rocket_contrib;
 use db::models::{Category, Component, Page, Spell, SpellCategory};
 use std::collections::HashMap;
 use rocket_contrib::Template;
+use rocket::response::Redirect;
+use rocket::request::Form;
 
 #[derive(Serialize)]
 struct SpellContext {
@@ -103,6 +107,36 @@ fn get_components(conn: db::Conn) -> Template {
     Template::render("components", ctx)
 }
 
+#[post("/page", data = "<page_form>")]
+fn post_page(conn: db::Conn, page_form: Form<Page>) -> Result<Redirect, String> {
+    use db::schema::page::dsl::page;
+    let new_page = page_form.get();
+    let insert_count = diesel::insert_into(page)
+        .values(new_page)
+        .on_conflict(db::schema::page::name)
+        .do_update()
+        .set(new_page)
+        .execute(&*conn);
+    match insert_count {
+        Ok(_) => Ok(Redirect::to(&format!("/page/{}", new_page.name))),
+        Err(e) => Err(format!("Failed: {}", e).to_string()),
+    }
+}
+
+#[derive(FromForm)]
+struct QueryAction {
+    edit: Option<String>,
+}
+#[get("/page/<name>?<q>")]
+fn edit_page(conn: db::Conn, name: String, q: QueryAction) -> Template {
+    use db::schema::page::dsl::page;
+    let mut ctx = HashMap::new();
+    let thispage = page.find(name)
+        .get_result::<Page>(&*conn)
+        .expect("Failed to fetch page");
+    ctx.insert("page", thispage);
+    Template::render("page_edit", ctx)
+}
 #[get("/page/<name>")]
 fn get_single_page(conn: db::Conn, name: String) -> Template {
     use db::schema::page::dsl::page;
@@ -141,6 +175,8 @@ fn main() {
                 index,
                 get_pages,
                 get_single_page,
+                edit_page,
+                post_page,
                 get_components,
                 get_single_component,
                 get_categories,

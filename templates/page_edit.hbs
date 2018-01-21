@@ -7,10 +7,21 @@
 </head>
 
 <body>
+    {{#if page}}
     <h1>Page: {{page.name}}</h1>
+    <div>
+        <a href="/">Index</a> ->
+        <a href="/pages">Pages</a>
+    </div>
+    {{else}}
+    <h1>New Page</h1>
+    {{/if}}
     <form action="/page" method="post">
-        <input type="hidden" value="{{page.name}}" name="name" />
-        <textarea autofocus="true" rows=20 cols=100 name="text">{{page.text}}</textarea>
+        {{#if page}}
+        <input type="hidden" value="{{page.name}}" name="name" /> {{else}}
+        <input type="text" placeholder="Name" name="name" />
+        <br/>{{/if}}
+        <textarea rows=20 cols=100 name="text">{{page.text}}</textarea>
         <br/>
         <input type="submit" />
     </form>

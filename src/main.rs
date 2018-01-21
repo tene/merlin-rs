@@ -127,6 +127,10 @@ fn post_page(conn: db::Conn, page_form: Form<Page>) -> Result<Redirect, String> 
 struct QueryAction {
     edit: Option<String>,
 }
+#[get("/page?<q>")]
+fn new_page(conn: db::Conn, q: QueryAction) -> Template {
+    Template::render("page_edit", "")
+}
 #[get("/page/<name>?<q>")]
 fn edit_page(conn: db::Conn, name: String, q: QueryAction) -> Template {
     use db::schema::page::dsl::page;
@@ -177,6 +181,7 @@ fn main() {
                 get_single_page,
                 edit_page,
                 post_page,
+                new_page,
                 get_components,
                 get_single_component,
                 get_categories,

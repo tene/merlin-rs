@@ -8,6 +8,10 @@
 
 <body>
     <h1>Page: {{page.name}}</h1>
+    <div>
+        <a href="/">Index</a> ->
+        <a href="/pages">Pages</a>
+    </div>
     <a href="/page/{{page.name}}?edit=true">Edit</a>
     <div style="white-space: pre-wrap;">{{page.text}}</div>
 </body>

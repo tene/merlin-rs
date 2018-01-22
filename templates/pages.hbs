@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <title>Pages</title>
-</head>
-
-<body>
-    <h1>Pages</h1>
-    <div>
-        <a href="/">Index</a>
-    </div>
-    <a href="/page?edit=true">New Page</a>
+{{#*inline "title"}} Pages {{/inline}} {{#*inline "header"}}
+<h1>Pages</h1>
+<div>
+    <a href="/">Index</a>
+</div>
+{{/inline}} {{#*inline "content"}}
+<a href="/page?edit=true">New Page</a>
+<div id="main">
     <ul>
         {{#each pages}}
         <li>
@@ -19,6 +13,5 @@
         </li>
         {{/each}}
     </ul>
-</body>
-
-</html>
+</div>
+{{/inline}} {{~> wrapper}}

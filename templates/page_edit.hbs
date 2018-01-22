@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <title>Page: {{page.name}}</title>
-</head>
-
-<body>
-    {{#if page}}
-    <h1>Page: {{page.name}}</h1>
-    <div>
-        <a href="/">Index</a> ->
-        <a href="/pages">Pages</a>
-    </div>
-    {{else}}
-    <h1>New Page</h1>
-    {{/if}}
+{{#*inline "title"}} Page: {{page.name}} {{/inline}} {{#*inline "header"}}
+<h1>Page: {{#if page}}{{page.name}}{{else}}New!{{/if}}</h1>
+<div>
+    <a href="/">Index</a> ->
+    <a href="/pages">Pages</a>
+</div>
+{{/inline}} {{#*inline "content"}}
+<div id="main">
     <form action="/page" method="post">
         {{#if page}}
         <input type="hidden" value="{{page.name}}" name="name" /> {{else}}
@@ -25,6 +15,5 @@
         <br/>
         <input type="submit" />
     </form>
-</body>
-
-</html>
+</div>
+{{/inline}} {{~> wrapper}}

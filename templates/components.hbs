@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <title>Components</title>
-</head>
-
-<body>
-    <h1>Components</h1>
-    <div>
-        <a href="/">Index</a>
-    </div>
+{{#*inline "title"}} Components {{/inline}} {{#*inline "header"}}
+<h1>Components</h1>
+<div>
+    <a href="/">Index</a>
+</div>
+{{/inline}} {{#*inline "content"}}
+<a href="/component?edit=true">New Component</a>
+<div id="main">
     <ul>
         {{#each components}}
         <li>
@@ -18,6 +13,5 @@
         </li>
         {{/each}}
     </ul>
-</body>
-
-</html>
+</div>
+{{/inline}} {{~> wrapper}}

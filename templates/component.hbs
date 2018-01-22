@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <title>Component: {{component.name}}</title>
-</head>
-
-<body>
-    <h1>Component: {{component.name}}</h1>
-    <div>
-        <a href="/">Index</a> ->
-        <a href="/components">Components</a>
-    </div>
+{{#*inline "title"}} {{component.name}} {{/inline}} {{#*inline "header"}}
+<h1>Component: {{component.name}}</h1>
+<div>
+    <a href="/">Index</a> ->
+    <a href="/components">Components</a>
+</div>
+{{/inline}} {{#*inline "content"}}
+<a href="/component/{{component.name}}?edit=true">Edit</a>
+<div style="white-space: pre-wrap;" id="main">
     {{component.description}}
-</body>
-
-</html>
+</div>
+{{/inline}} {{~> wrapper}}

@@ -24,10 +24,13 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Component Subsets
     * Category Requirements
     * Get diesel Associations working
-* Find a way to unify templates for better reuse
+* Cleanups
+    * Find a way to unify templates for better reuse
+    * Move route handlers into dedicated modules (Pages, Spells, Components, Categories)
 * Authentication and user accounts (avoid spambots)
 * Tweak schema
     * Replace Intervals with something simpler to model, like integer milliseconds
+    * Replace Numeric with something simpler to model (Real?)
     * Replace linking tables with json columns (slow table scans for some data (maybe cached?), but free pg row limit constraints will be a problem soonish)
 * Improve aesthetics
     * Better colorscheme

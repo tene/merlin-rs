@@ -62,7 +62,7 @@ table! {
         spell_id -> Varchar,
         component_id -> Varchar,
         notes -> Text,
-        quantity -> Nullable<Numeric>,
+        //quantity -> Nullable<Numeric>,
     }
 }
 

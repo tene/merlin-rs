@@ -12,6 +12,8 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
+extern crate bigdecimal;
+
 use diesel::prelude::*;
 //use diesel::query_builder::AsChangeset;
 
@@ -47,7 +49,7 @@ fn get_single_spell(conn: db::Conn, name: String) -> Template {
         .expect("Failed to fetch categories for spell");
     let cmps = spell_component
         .filter(db::schema::spell_component::dsl::spell_id.eq(&item.name))
-        .order(db::schema::spell_component::quantity)
+        .order(db::schema::spell_component::component_id)
         .load::<SpellComponent>(&*conn)
         .expect("Failed to fetch components for spell");
     let ctx = SpellContext {

@@ -23,6 +23,8 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Spell Components
     * Component Subsets
     * Category Requirements
+    * Get diesel Associations working
+* Find a way to unify templates for better reuse
 * Authentication and user accounts (avoid spambots)
 * Tweak schema
     * Replace Intervals with something simpler to model, like integer milliseconds
@@ -33,3 +35,6 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Better forms
     * Render item content formatting
     * Convert current markup from weird old Textile formatting to Markdown
+* Build improvements
+    * Script to "docker build" with dedicated persistent target directory
+    * Configure testing/staging/prod pipeline in heroku

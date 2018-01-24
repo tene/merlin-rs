@@ -18,7 +18,7 @@ use diesel::prelude::*;
 mod db;
 
 extern crate rocket_contrib;
-use db::models::{Category, Component, Page, Spell, SpellCategory};
+use db::models::{Category, Component, Page, Spell, SpellCategory, SpellComponent};
 use std::collections::HashMap;
 use rocket_contrib::Template;
 use rocket::response::Redirect;
@@ -28,12 +28,14 @@ use rocket::request::Form;
 struct SpellContext {
     spell: Spell,
     categories: Vec<SpellCategory>,
+    components: Vec<SpellComponent>,
 }
 
 #[get("/spell/<name>")]
 fn get_single_spell(conn: db::Conn, name: String) -> Template {
     use db::schema::spell::dsl::spell;
     use db::schema::spell_category::dsl::spell_category;
+    use db::schema::spell_component::dsl::spell_component;
     let item = spell
         .find(name)
         .get_result::<Spell>(&*conn)
@@ -42,10 +44,16 @@ fn get_single_spell(conn: db::Conn, name: String) -> Template {
         .filter(db::schema::spell_category::dsl::spell_id.eq(&item.name))
         .order(db::schema::spell_category::level)
         .load::<SpellCategory>(&*conn)
-        .expect("Failed to fetch categories");
+        .expect("Failed to fetch categories for spell");
+    let cmps = spell_component
+        .filter(db::schema::spell_component::dsl::spell_id.eq(&item.name))
+        .order(db::schema::spell_component::quantity)
+        .load::<SpellComponent>(&*conn)
+        .expect("Failed to fetch components for spell");
     let ctx = SpellContext {
         spell: item,
         categories: cats,
+        components: cmps,
     };
     Template::render("spell", ctx)
 }

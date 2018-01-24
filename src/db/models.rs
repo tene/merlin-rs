@@ -70,3 +70,16 @@ pub struct SpellCategory {
     pub category_id: String,
     pub level: i32,
 }
+
+extern crate bigdecimal;
+use bigdecimal::BigDecimal;
+#[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]
+#[table_name = "spell_component"]
+#[belongs_to(Spell)]
+#[primary_key(spell_id, component_id)]
+pub struct SpellComponent {
+    pub spell_id: String,
+    pub component_id: String,
+    pub notes: String,
+    pub quantity: Option<BigDecimal>,
+}

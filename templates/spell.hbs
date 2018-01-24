@@ -15,5 +15,12 @@
         </li>
         {{/each}}
     </ul>
+    <ul>
+        {{#each components}}
+        <li>
+            <a href="/component/{{this.component_id}}">{{this.component_id}}</a>: {{this.quantity}} {{#if this.notes}} (this.notes) {{/if}}
+        </li>
+        {{/each}}
+    </ul>
 </div>
 {{/inline}} {{~> wrapper}}

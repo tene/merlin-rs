@@ -1,17 +1,12 @@
-{{#*inline "title"}} Categories {{/inline}} {{#*inline "header"}}
+{{#*inline "title"}} Categories {{/inline}} {{#*inline "name"}}
 <h1>Categories</h1>
-<div>
-    <a href="/">Index</a>
-</div>
-{{/inline}} {{#*inline "content"}}
 <a href="/category?edit=true">New Category</a>
-<div id="main">
-    <ul>
-        {{#each categories}}
-        <li>
-            <a href="/category/{{this.name}}">{{this.name}}</a>
-        </li>
-        {{/each}}
-    </ul>
-</div>
+{{/inline}} {{#*inline "content"}}
+<ul>
+    {{#each categories}}
+    <li>
+        <a href="/category/{{this.name}}">{{this.name}}</a>
+    </li>
+    {{/each}}
+</ul>
 {{/inline}} {{~> wrapper}}

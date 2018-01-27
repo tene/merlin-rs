@@ -1,17 +1,12 @@
-{{#*inline "title"}} Pages {{/inline}} {{#*inline "header"}}
+{{#*inline "title"}} Pages {{/inline}} {{#*inline "name"}}
 <h1>Pages</h1>
-<div>
-    <a href="/">Index</a>
-</div>
-{{/inline}} {{#*inline "content"}}
 <a href="/page?edit=true">New Page</a>
-<div id="main">
-    <ul>
-        {{#each pages}}
-        <li>
-            <a href="/page/{{this.name}}">{{this.name}}</a>
-        </li>
-        {{/each}}
-    </ul>
-</div>
+{{/inline}} {{#*inline "content"}}
+<ul>
+    {{#each pages}}
+    <li>
+        <a href="/page/{{this.name}}">{{this.name}}</a>
+    </li>
+    {{/each}}
+</ul>
 {{/inline}} {{~> wrapper}}

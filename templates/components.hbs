@@ -1,17 +1,12 @@
-{{#*inline "title"}} Components {{/inline}} {{#*inline "header"}}
+{{#*inline "title"}} Components {{/inline}} {{#*inline "name"}}
 <h1>Components</h1>
-<div>
-    <a href="/">Index</a>
-</div>
-{{/inline}} {{#*inline "content"}}
 <a href="/component?edit=true">New Component</a>
-<div id="main">
-    <ul>
-        {{#each components}}
-        <li>
-            <a href="/component/{{this.name}}">{{this.name}}</a>
-        </li>
-        {{/each}}
-    </ul>
-</div>
+{{/inline}} {{#*inline "content"}}
+<ul>
+    {{#each components}}
+    <li>
+        <a href="/component/{{this.name}}">{{this.name}}</a>
+    </li>
+    {{/each}}
+</ul>
 {{/inline}} {{~> wrapper}}

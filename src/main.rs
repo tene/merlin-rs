@@ -25,6 +25,7 @@ use std::collections::HashMap;
 use rocket_contrib::Template;
 use rocket::response::Redirect;
 use rocket::request::Form;
+use rocket::response::content;
 
 #[derive(Serialize)]
 struct SpellContext {

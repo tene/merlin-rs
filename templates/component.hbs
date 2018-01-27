@@ -1,12 +1,8 @@
-{{#*inline "title"}} {{component.name}} {{/inline}} {{#*inline "header"}}
+{{#*inline "title"}} {{component.name}} {{/inline}} {{#*inline "name"}}
 <h1>Component: {{component.name}}</h1>
-<div>
-    <a href="/">Index</a> ->
-    <a href="/components">Components</a>
-</div>
-{{/inline}} {{#*inline "content"}}
 <a href="/component/{{component.name}}?edit=true">Edit</a>
-<div style="white-space: pre-wrap;" id="main">
+{{/inline}} {{#*inline "content"}}
+<div class="prose">
     {{component.description}}
 </div>
 {{/inline}} {{~> wrapper}}

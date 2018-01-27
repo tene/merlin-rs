@@ -1,17 +1,12 @@
- {{#*inline "title"}} Spells {{/inline}} {{#*inline "header"}}
+ {{#*inline "title"}} Spells {{/inline}} {{#*inline "name"}}
 <h1>Spells</h1>
-<div>
-    <a href="/">Index</a>
-</div>
-{{/inline}} {{#*inline "content"}}
 <a href="/spell?edit=true">New Spell</a>
-<div id="main">
-    <ul>
-        {{#each spells}}
-        <li>
-            <a href="/spell/{{this.name}}">{{this.name}}</a>
-        </li>
-        {{/each}}
-    </ul>
-</div>
+{{/inline}} {{#*inline "content"}}
+<ul>
+    {{#each spells}}
+    <li>
+        <a href="/spell/{{this.name}}">{{this.name}}</a>
+    </li>
+    {{/each}}
+</ul>
 {{/inline}} {{~> wrapper}}

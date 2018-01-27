@@ -1,26 +1,20 @@
-{{#*inline "title"}} Spell: {{spell.name}} {{/inline}} {{#*inline "header"}}
+{{#*inline "title"}} Spell: {{spell.name}} {{/inline}} {{#*inline "name"}}
 <h1>Spell: {{spell.name}}</h1>
-<div>
-    <a href="/">Index</a> ->
-    <a href="/spells">Spells</a>
-</div>
-{{/inline}} {{#*inline "content"}}
 <a href="/spell/{{spell.name}}?edit=true">Edit</a>
-<div id="main">
-    <div style="white-space: pre-wrap;">{{spell.description}}</div>
-    <ul>
-        {{#each categories}}
-        <li>
-            <a href="/category/{{this.category_id}}">{{this.category_id}}</a>: {{this.level}}
-        </li>
-        {{/each}}
-    </ul>
-    <ul>
-        {{#each components}}
-        <li>
-            <a href="/component/{{this.component_id}}">{{this.component_id}}</a>{{#if this.notes}}: (this.notes) {{/if}}
-        </li>
-        {{/each}}
-    </ul>
-</div>
+{{/inline}} {{#*inline "content"}}
+<div class="prose">{{spell.description}}</div>
+<ul>
+    {{#each categories}}
+    <li>
+        <a href="/category/{{this.category_id}}">{{this.category_id}}</a>: {{this.level}}
+    </li>
+    {{/each}}
+</ul>
+<ul>
+    {{#each components}}
+    <li>
+        <a href="/component/{{this.component_id}}">{{this.component_id}}</a>{{#if this.notes}}: (this.notes) {{/if}}
+    </li>
+    {{/each}}
+</ul>
 {{/inline}} {{~> wrapper}}

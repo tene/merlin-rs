@@ -1,11 +1,7 @@
-{{#*inline "title"}} Page: {{page.name}} {{/inline}} {{#*inline "header"}}
-<h1>Page: {{#if page}}{{page.name}}{{else}}New!{{/if}}</h1>
-<div>
-    <a href="/">Index</a> ->
-    <a href="/pages">Pages</a>
-</div>
+{{#*inline "title"}} Page: {{page.name}} {{/inline}} {{#*inline "name"}}
+<h1>{{#if page}}{{page.name}}{{else}}New Page!{{/if}}</h1>
 {{/inline}} {{#*inline "content"}}
-<div id="main">
+<div id="edit">
     <form action="/page" method="post">
         {{#if page}}
         <input type="hidden" value="{{page.name}}" name="name" /> {{else}}

@@ -1,10 +1,6 @@
-{{#*inline "title"}} Page: {{page.name}} {{/inline}} {{#*inline "header"}}
-<h1>Page: {{page.name}}</h1>
-<div>
-    <a href="/">Index</a> ->
-    <a href="/pages">Pages</a>
-</div>
-{{/inline}} {{#*inline "content"}}
+{{#*inline "title"}} Page: {{page.name}} {{/inline}} {{#*inline "name"}}
+<h1>{{page.name}}</h1>
 <a href="/page/{{page.name}}?edit=true">Edit</a>
-<div style="white-space: pre-wrap;" id="main">{{page.text}}</div>
+{{/inline}} {{#*inline "content"}}
+<div class="prose">{{page.text}}</div>
 {{/inline}} {{~> wrapper}}

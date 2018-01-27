@@ -1,6 +1,46 @@
-{{#*inline "title"}} {{category.name}} {{/inline}} {{#*inline "name"}}
-<h1>{{category.name}}</h1>
-<a href="/category/{{category.name}}?edit=true">Edit</a>
-{{/inline}} {{#*inline "content"}}
-<div class="prose">{{category.description}}</div>
-{{/inline}} {{~> wrapper}}
+{{#*inline "title"}}
+  {{category.name}}
+{{/inline}}
+
+{{#*inline "name"}}
+  <h1>{{category.name}}</h1>
+  <a href="/category/{{category.name}}?edit=true">
+    Edit
+  </a>
+{{/inline}}
+
+{{#*inline "content"}}
+<div class="prose">
+  {{category.description}}
+</div>
+
+{{#if requirements}}
+  <h2>Requirements</h2>
+  <ul>
+      {{#each requirements}}
+      <li>
+          <a href="/category/{{this.required_id}}">{{this.required_id}}</a>: {{this.level}}
+      </li>
+      {{/each}}
+  </ul>
+{{else}}
+  <h2>No Requirements</h2>
+{{/if}}
+
+{{#if required_by}}
+<h2>Required By</h2>
+<ul>
+    {{#each required_by}}
+    <li>
+        <a href="/category/{{this.category_id}}">{{this.category_id}}</a>: {{this.level}}
+    </li>
+    {{/each}}
+</ul>
+{{else}}
+  <h2>Required By Nothing</h2>
+{{/if}}
+
+
+{{/inline}}
+
+{{~> wrapper}}

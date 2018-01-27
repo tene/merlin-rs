@@ -9,6 +9,16 @@ pub struct Category {
     pub description: String,
 }
 
+#[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]
+#[table_name = "category_link"]
+#[belongs_to(Category)]
+#[primary_key(category_id, required_id)]
+pub struct CategoryLink {
+    pub category_id: String,
+    pub required_id: String,
+    pub level: i32,
+}
+
 #[derive(Queryable, Serialize, AsChangeset)]
 #[table_name = "component"]
 #[primary_key(name)]

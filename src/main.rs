@@ -20,7 +20,7 @@ use diesel::prelude::*;
 mod db;
 
 extern crate rocket_contrib;
-use db::models::{Category, Component, Page, Spell, SpellCategory, SpellComponent};
+use db::models::{Category, CategoryLink, Component, Page, Spell, SpellCategory, SpellComponent};
 use std::collections::HashMap;
 use rocket_contrib::Template;
 use rocket::response::Redirect;
@@ -75,14 +75,36 @@ fn get_spells(conn: db::Conn) -> Template {
 #[get("/category/<name>")]
 fn get_single_category(conn: db::Conn, name: String) -> Template {
     use db::schema::category::dsl::category;
-    let mut ctx = HashMap::new();
+    use db::schema::category_link::dsl::category_link;
     let item = category
         .find(name)
         .get_result::<Category>(&*conn)
         .expect("Failed to fetch category");
-    ctx.insert("category", item);
+    let requirements = category_link
+        .filter(db::schema::category_link::dsl::category_id.eq(&item.name))
+        .order(db::schema::category_link::level)
+        .load::<CategoryLink>(&*conn)
+        .expect("Failed to fetch requirements for category");
+    let required_by = category_link
+        .filter(db::schema::category_link::dsl::required_id.eq(&item.name))
+        .order(db::schema::category_link::level)
+        .load::<CategoryLink>(&*conn)
+        .expect("Failed to fetch requirements of category");
+    let ctx = CategoryContext {
+        category: item,
+    requirements: requirements,
+    required_by: required_by
+    };
     Template::render("category", ctx)
 }
+
+#[derive(Serialize)]
+struct CategoryContext {
+    category: Category,
+    requirements: Vec<CategoryLink>,
+    required_by: Vec<CategoryLink>,
+}
+
 #[get("/categories")]
 fn get_categories(conn: db::Conn) -> Template {
     use db::schema::category::dsl::category;

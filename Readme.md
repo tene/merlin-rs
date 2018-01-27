@@ -5,9 +5,9 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
 * Render the rest of the references between tables
     * Components per Spell
     * Spells per Component
-    * Spells per Category
+    * ~~Spells per Category~~
     * Component Subets and Supersets
-    * Category requirements
+    * ~~Category requirements~~
 * Edit content for the rest of the tables
     * Spell
     * Component

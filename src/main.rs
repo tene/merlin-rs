@@ -76,6 +76,7 @@ fn get_spells(conn: db::Conn) -> Template {
 fn get_single_category(conn: db::Conn, name: String) -> Template {
     use db::schema::category::dsl::category;
     use db::schema::category_link::dsl::category_link;
+    use db::schema::spell_category::dsl::spell_category;
     let item = category
         .find(name)
         .get_result::<Category>(&*conn)
@@ -90,10 +91,16 @@ fn get_single_category(conn: db::Conn, name: String) -> Template {
         .order(db::schema::category_link::level)
         .load::<CategoryLink>(&*conn)
         .expect("Failed to fetch requirements of category");
+    let spells = spell_category
+        .filter(db::schema::spell_category::dsl::category_id.eq(&item.name))
+        .order(db::schema::spell_category::level)
+        .load::<SpellCategory>(&*conn)
+        .expect("Failed to fetch spells for category");
     let ctx = CategoryContext {
         category: item,
-    requirements: requirements,
-    required_by: required_by
+        requirements: requirements,
+        required_by: required_by,
+        spells: spells,
     };
     Template::render("category", ctx)
 }
@@ -103,6 +110,7 @@ struct CategoryContext {
     category: Category,
     requirements: Vec<CategoryLink>,
     required_by: Vec<CategoryLink>,
+    spells: Vec<SpellCategory>,
 }
 
 #[get("/categories")]

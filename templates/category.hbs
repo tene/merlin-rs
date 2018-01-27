@@ -40,6 +40,19 @@
   <h2>Required By Nothing</h2>
 {{/if}}
 
+{{#if spells}}
+<h2>Spells</h2>
+<ul>
+    {{#each spells}}
+    <li>
+        <a href="/spell/{{this.spell_id}}">{{this.spell_id}}</a>: {{this.level}}
+    </li>
+    {{/each}}
+</ul>
+{{else}}
+  <h2>No Spells</h2>
+{{/if}}
+
 
 {{/inline}}
 

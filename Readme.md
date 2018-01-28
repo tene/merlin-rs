@@ -26,6 +26,11 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Component Subsets
     * Category Requirements
     * Get diesel Associations working
+* Search
+    * ~~Basic search~~
+    * Tweak lexer to break on slashes
+    * Live search?
+    * Autocomplete?
 * Cleanups
     * Find a way to unify templates for better reuse
     * Move route handlers into dedicated modules (Pages, Spells, Components, Categories)
@@ -40,6 +45,7 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Better forms
     * Render item content formatting
     * Convert current markup from weird old Textile formatting to Markdown
+    * Prettier search box
 * Build improvements
     * Script to "docker build" with dedicated persistent target directory
     * Configure testing/staging/prod pipeline in heroku

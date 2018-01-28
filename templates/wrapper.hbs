@@ -31,6 +31,11 @@
             border-bottom: 1px solid black;
         }
 
+        #headersearch {
+            display: inline-block;
+            float: right;
+        }
+
         #name h1 {
             display: inline-block;
         }
@@ -48,6 +53,24 @@
             white-space: pre-wrap;
             font-family: sans-serif;
         }
+
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e7e7fc;
+        }
+
+        tr:hover {
+            background-color: #d7d7ec;
+        }
     </style>
 </head>
 
@@ -57,6 +80,9 @@
         <a href="/spells">Spells</a>
         <a href="/categories">Categories</a>
         <a href="/components">Components</a>
+        <form action="/search" method="get" id="headersearch">
+            <input type="search" placeholder="Search" name="text"/>
+        </form>
     </div>
     <div id="content">
         <div id="name">

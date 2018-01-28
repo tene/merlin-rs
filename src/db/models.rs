@@ -39,36 +39,74 @@ pub struct Page {
     pub text: String,
 }
 
-/*
 use diesel::data_types::PgInterval;
-use serde::ser::{Serialize, SerializeStruct, Serializer};
 
-pub struct Interval(pub PgInterval);
-
-impl Serialize for Interval {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        // 3 is the number of fields in the struct.
-        let mut state = serializer.serialize_struct("Interval", 3)?;
-        state.serialize_field("microseconds", &self.0.microseconds)?;
-        state.serialize_field("days", &self.0.days)?;
-        state.serialize_field("months", &self.0.months)?;
-        state.end()
-    }
-}
-*/
-
-#[derive(Identifiable, Queryable, PartialEq, Serialize, AsChangeset)]
+#[derive(Identifiable, Queryable, PartialEq, AsChangeset)]
 #[table_name = "spell"]
 #[primary_key(name)]
 pub struct Spell {
     pub name: String,
     pub description: String,
     pub range: f32,
-    //pub casting_time: PgInterval,
-    //pub duration: Option<PgInterval>,
+    pub casting_time: PgInterval,
+    pub duration: Option<PgInterval>,
+}
+
+use serde::ser::{Serialize, SerializeStruct, Serializer};
+use std::collections::HashMap;
+
+fn interval_to_hash(i: PgInterval) -> HashMap<&'static str, i32> {
+    let mut hm : HashMap<&'static str, i32> = HashMap::new();
+    let mut months = i.months;
+    let mut days = i.days;
+    let mut mcs = i.microseconds;
+    if months > 12 {
+        hm.insert("years", months/12);
+        months = months % 12;
+    }
+    if months > 0 {
+        hm.insert("months", i.months);
+    }
+    if days > 0 {
+        hm.insert("days", i.days);
+    }
+    if mcs > 3600000000 {
+        hm.insert("hours", (mcs/3600000000) as i32);
+        mcs = mcs % 3600000000;
+    }
+    if mcs > 60000000 {
+        hm.insert("minutes", (mcs/60000000) as i32);
+        mcs = mcs % 60000000;
+    }
+    if mcs > 1000000 {
+        hm.insert("seconds", (mcs/1000000) as i32);
+        mcs = mcs % 1000000;
+    }
+    if mcs > 1000 {
+        hm.insert("milliseconds", (mcs/1000) as i32);
+        mcs = mcs % 1000;
+    }
+    hm
+}
+
+impl Serialize for Spell {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let casting_time = interval_to_hash(self.casting_time);
+        let duration = self.duration.map(interval_to_hash);
+        // TODO: format time better
+        
+        // 4 is the number of fields in the struct.
+        let mut state = serializer.serialize_struct("Spell", 5)?;
+        state.serialize_field("name", &self.name)?;
+        state.serialize_field("description", &self.description)?;
+        state.serialize_field("range", &self.range)?;
+        state.serialize_field("casting_time", &casting_time)?;
+        state.serialize_field("duration", &duration)?;
+        state.end()
+    }
 }
 
 #[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]

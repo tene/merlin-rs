@@ -1,16 +1,15 @@
 extern crate dotenv;
-extern crate r2d2;
-extern crate r2d2_diesel;
 
 use std::ops::Deref;
 use rocket::http::Status;
 use rocket::request::{self, FromRequest};
 use rocket::{Outcome, Request, State};
 use diesel::pg::PgConnection;
+use diesel::r2d2;
 use self::dotenv::dotenv;
 use std::env;
 
-use self::r2d2_diesel::ConnectionManager;
+use diesel::r2d2::ConnectionManager;
 
 pub mod models;
 pub mod schema;

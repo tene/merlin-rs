@@ -1,8 +1,32 @@
 {{#*inline "title"}} Spell: {{spell.name}} {{/inline}} {{#*inline "name"}}
 <h1>Spell: {{spell.name}}</h1>
 <a href="/spell/{{spell.name}}?edit=true">Edit</a>
-{{/inline}} {{#*inline "content"}}
+{{/inline}}
+{{#*inline "time_interval"}}
+{{#if interval.years}}{{interval.years}} Years{{/if}}
+{{#if interval.months}}{{interval.months}} Months{{/if}}
+{{#if interval.days}}{{interval.days}} Days{{/if}}
+{{#if interval.hours}}{{interval.hours}} Hours{{/if}}
+{{#if interval.minutes}}{{interval.minutes}} Minutes{{/if}}
+{{#if interval.seconds}}{{interval.seconds}} Seconds{{/if}}
+{{#if interval.milliseconds}}{{interval.milliseconds}} Milliseconds{{/if}}
+{{/inline}}
+{{#*inline "content"}}
 <div class="prose">{{spell.description}}</div>
+<dl>
+    <dt>Casting Time</dt>
+    <dd>
+        {{> time_interval interval=spell.casting_time }}
+    </dd>
+    <dt>Duration</dt>
+    <dd>
+    {{#if spell.duration}}
+        {{> time_interval interval=spell.duration }}
+    {{else}}
+        Instant
+    {{/if}}
+    </dd>
+</dl>
 <ul>
     {{#each categories}}
     <li>

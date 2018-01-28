@@ -8,7 +8,7 @@ RUN mkdir -p /app/src && echo "fn main() {}" > /app/src/main.rs &&\
 ADD . /app
 RUN rm /app/target/*/merlin ; cargo build --release
 
-FROM rustlang/rust:nightly
+FROM buildpack-deps:stretch
 WORKDIR /app
 COPY run.sh Rocket.toml /app/
 COPY templates /app/templates/

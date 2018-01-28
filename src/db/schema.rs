@@ -44,8 +44,8 @@ table! {
         name -> Varchar,
         description -> Text,
         range -> Float4,
-        //casting_time -> Interval,
-        //duration -> Nullable<Interval>,
+        casting_time -> Interval,
+        duration -> Nullable<Interval>,
     }
 }
 

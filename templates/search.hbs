@@ -2,16 +2,6 @@
 <div class="prose">{{query}}</div>
 <hr/>
 {{/inline}}
-{{#*inline "searchtable"}}
-<table>
-    {{#each results}}
-    <tr>
-        <td><a href="/{{link}}/{{this.id}}">{{this.id}}</a></td>
-        <td>{{this.headline}}</td>
-    </tr>
-    {{/each}}
-</table>
-{{/inline}}
 {{#*inline "content"}}
 <div id="edit">
 <form action="/search" method="get">
@@ -21,11 +11,39 @@
 </form>
 </div>
 <h2>Pages</h2>
-{{> searchtable results=pages link="page"}}
+<table>
+    {{#each pages}}
+    <tr>
+        <td><a href="/page/{{this.id}}">{{this.id}}</a></td>
+        <td>{{this.headline}}</td>
+    </tr>
+    {{/each}}
+</table>
 <h2>Spells</h2>
-{{> searchtable results=spells link="spell"}}
+<table>
+    {{#each spells}}
+    <tr>
+        <td><a href="/spell/{{this.id}}">{{this.id}}</a></td>
+        <td>{{this.headline}}</td>
+    </tr>
+    {{/each}}
+</table>
 <h2>Components</h2>
-{{> searchtable results=components link="component"}}
+<table>
+    {{#each components}}
+    <tr>
+        <td><a href="/component/{{this.id}}">{{this.id}}</a></td>
+        <td>{{this.headline}}</td>
+    </tr>
+    {{/each}}
+</table>
 <h2>Categories</h2>
-{{> searchtable results=categories link="category"}}
+<table>
+    {{#each categories}}
+    <tr>
+        <td><a href="/category/{{this.id}}">{{this.id}}</a></td>
+        <td>{{this.headline}}</td>
+    </tr>
+    {{/each}}
+</table>
 {{/inline}} {{~> wrapper}}

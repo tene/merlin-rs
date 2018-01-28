@@ -50,3 +50,4 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Script to "docker build" with dedicated persistent target directory
     * Configure testing/staging/prod pipeline in heroku
     * Add a bootstrap cargo.toml with basic dependencies, to further reduce build time when adding new dependencies
+    * Clean up warnings

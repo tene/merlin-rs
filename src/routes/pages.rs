@@ -53,7 +53,7 @@ fn edit_page(_user: UserPass<String>, conn: DBConn, name: String, q: QueryAction
         .expect("Failed to fetch page");
     ctx.insert("page", thispage);
     match q.action.as_ref().map(String::as_ref) {
-        Some("new") => Ok(Template::render("page_edit", ctx)),
+        Some("edit") => Ok(Template::render("page_edit", ctx)),
         Some(_)     => Err(format!("Invalid action: {}", q.action.unwrap()).to_string()),
         None        => Err("No action".to_string()),
     }

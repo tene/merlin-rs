@@ -11,9 +11,10 @@ use ::db::models::{Page};
 use std::collections::HashMap;
 use rocket::response::Redirect;
 use rocket::request::Form;
+use ::routes::auth::UserPass;
 
 #[post("/page", data = "<page_form>")]
-fn post_page(conn: DBConn, page_form: Form<Page>) -> Result<Redirect, String> {
+fn post_page(_user: UserPass<String>, conn: DBConn, page_form: Form<Page>) -> Result<Redirect, String> {
     use ::db::schema::page::dsl::page;
     let new_page = page_form.get();
     let insert_count = diesel::insert_into(page)
@@ -30,16 +31,20 @@ fn post_page(conn: DBConn, page_form: Form<Page>) -> Result<Redirect, String> {
 
 #[derive(FromForm)]
 struct QueryAction {
-    edit: Option<String>,
+    action: Option<String>,
 }
 
 #[get("/page?<q>")]
-fn new_page(conn: DBConn, q: QueryAction) -> Template {
-    Template::render("page_edit", "")
+fn new_page(_user: UserPass<String>, conn: DBConn, q: QueryAction) -> Result<Template, String> {
+    /*match q.action.as_ref() {
+        "new" => Ok(Template::render("page_edit", "")),
+        _      => Err(format!("Invalid action: {}", q.action).to_string()),
+    }*/
+    Ok(Template::render("page_edit", ""))
 }
 
 #[get("/page/<name>?<q>")]
-fn edit_page(conn: DBConn, name: String, q: QueryAction) -> Template {
+fn edit_page(_user: UserPass<String>, conn: DBConn, name: String, q: QueryAction) -> Template {
     use ::db::schema::page::dsl::page;
     let mut ctx = HashMap::new();
     let thispage = page.find(name)
@@ -49,14 +54,21 @@ fn edit_page(conn: DBConn, name: String, q: QueryAction) -> Template {
     Template::render("page_edit", ctx)
 }
 
+#[derive(Serialize)]
+struct PageContext {
+    page: Page,
+    user: Option<String>,
+}
 #[get("/page/<name>")]
-fn get_single_page(conn: DBConn, name: String) -> Template {
+fn get_single_page(user: Option<UserPass<String>>, conn: DBConn, name: String) -> Template {
     use ::db::schema::page::dsl::page;
-    let mut ctx = HashMap::new();
     let thispage = page.find(name)
         .get_result::<Page>(&*conn)
         .expect("Failed to fetch page");
-    ctx.insert("page", thispage);
+    let ctx = PageContext{
+        page: thispage,
+        user: user.map(|u| u.user),
+    };
     Template::render("page", ctx)
 }
 

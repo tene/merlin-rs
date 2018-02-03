@@ -1,6 +1,10 @@
 {{#*inline "title"}} Page: {{page.name}} {{/inline}} {{#*inline "name"}}
 <h1>{{page.name}}</h1>
-<a href="/page/{{page.name}}?edit=true">Edit</a>
+{{#if user}}
+<a href="/page/{{page.name}}?action=edit">Edit</a>
+{{else}}
+<a href="/login">Login to Edit</a>
+{{/if}}
 {{/inline}} {{#*inline "content"}}
 <div class="prose">{{page.text}}</div>
 {{/inline}} {{~> wrapper}}

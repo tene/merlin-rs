@@ -16,12 +16,9 @@ extern crate serde_derive;
 extern crate bigdecimal;
 
 use diesel::prelude::*;
-// use diesel::debug_query;
-//use diesel::query_builder::AsChangeset;
 
 mod db;
 mod routes;
-mod auth;
 
 extern crate rocket_contrib;
 use rocket_contrib::Template;
@@ -124,9 +121,9 @@ fn main() {
                 routes::spells::get_spells,
                 routes::spells::get_single_spell,
                 search_all,
-                auth::admin,
-                auth::login,
-                auth::login_post,
+                routes::auth::admin,
+                routes::auth::login,
+                routes::auth::login_post,
             ],
         )
         .attach(Template::fairing())

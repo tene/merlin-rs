@@ -93,7 +93,7 @@ fn interval_to_hash(i: PgInterval) -> HashMap<&'static str, i32> {
     }
     if mcs > 1000 {
         hm.insert("milliseconds", (mcs/1000) as i32);
-        mcs = mcs % 1000;
+        //mcs = mcs % 1000;
     }
     hm
 }

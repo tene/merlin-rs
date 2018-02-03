@@ -35,23 +35,28 @@ struct QueryAction {
 }
 
 #[get("/page?<q>")]
-fn new_page(_user: UserPass<String>, conn: DBConn, q: QueryAction) -> Result<Template, String> {
-    /*match q.action.as_ref() {
-        "new" => Ok(Template::render("page_edit", "")),
-        _      => Err(format!("Invalid action: {}", q.action).to_string()),
-    }*/
-    Ok(Template::render("page_edit", ""))
+fn new_page(_user: UserPass<String>, q: QueryAction) -> Result<Template, String> {
+    match q.action.as_ref().map(String::as_ref) {
+        Some("new") => Ok(Template::render("page_edit", "")),
+        Some(_)     => Err(format!("Invalid action: {}", q.action.unwrap()).to_string()),
+        None        => Err("No action".to_string()),
+    }
+    //Ok(Template::render("page_edit", ""))
 }
 
 #[get("/page/<name>?<q>")]
-fn edit_page(_user: UserPass<String>, conn: DBConn, name: String, q: QueryAction) -> Template {
+fn edit_page(_user: UserPass<String>, conn: DBConn, name: String, q: QueryAction) -> Result<Template, String> {
     use ::db::schema::page::dsl::page;
     let mut ctx = HashMap::new();
     let thispage = page.find(name)
         .get_result::<Page>(&*conn)
         .expect("Failed to fetch page");
     ctx.insert("page", thispage);
-    Template::render("page_edit", ctx)
+    match q.action.as_ref().map(String::as_ref) {
+        Some("new") => Ok(Template::render("page_edit", ctx)),
+        Some(_)     => Err(format!("Invalid action: {}", q.action.unwrap()).to_string()),
+        None        => Err("No action".to_string()),
+    }
 }
 
 #[derive(Serialize)]

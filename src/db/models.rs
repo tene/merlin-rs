@@ -31,6 +31,15 @@ pub struct Component {
     pub volume: f32,
 }
 
+#[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]
+#[table_name = "component_subset"]
+#[belongs_to(Component)]
+#[primary_key(component_id, subset_of)]
+pub struct ComponentSubset {
+    pub component_id: String,
+    pub subset_of: String,
+}
+
 #[derive(Identifiable, Queryable, Insertable, Serialize, AsChangeset, FromForm)]
 #[table_name = "page"]
 #[primary_key(name)]

@@ -6,8 +6,11 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * ~~Components per Spell~~
     * ~~Spells per Component~~
     * ~~Spells per Category~~
-    * Component Subets and Supersets
+    * ~~Component Subsets and Supersets~~
     * ~~Category requirements~~
+    * (Maybe) Recursively pull up Subsets and Supersets
+        * A spell using component A may also list (indented) components B or C, if B or C could be substituted in for A.
+        * A component used in spell X may also list (indented) spells Y or Z, if Y or Z could use this component as a substitution.
 * Edit content for the rest of the tables
     * Spell
     * Component
@@ -23,8 +26,8 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
         * ~~Serialize and render in page~~
         * Deserialize from edit form
     * Spell Components
-    * Component Subsets
-    * Category Requirements
+    * ~~Component Subsets~~
+    * ~~Category Requirements~~
     * Get diesel Associations working
 * Search
     * ~~Basic search~~
@@ -33,7 +36,7 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * Autocomplete?
 * Cleanups
     * Find a way to unify templates for better reuse
-    * Move route handlers into dedicated modules (Pages, Spells, Components, Categories)
+    * ~~Move route handlers into dedicated modules (Pages, Spells, Components, Categories)~~
 * Authentication and user accounts (avoid spambots)
 * Tweak schema
     * Replace Intervals with something simpler to model, like integer milliseconds

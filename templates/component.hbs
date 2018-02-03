@@ -12,8 +12,36 @@
     {{component.description}}
   </div>
 
+  {{#if subsets}}
+    <h2>Counts As</h2>
+    <ul>
+      {{#each subsets}}
+      <li>
+        <a href="/component/{{this.subset_of}}">{{this.subset_of}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <h2>Cannot Stand In For More General Variations</h2>
+  {{/if}}
+
+  {{#if supersets}}
+    <h2>Specialized Variations</h2>
+    <ul>
+      {{#each supersets}}
+      <li>
+        <a href="/component/{{this.component_id}}">{{this.component_id}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <h2>No Specialized Variations</h2>
+  {{/if}}
+
+
+
   {{#if spells}}
-    <h2>Spells</h2>
+    <h2>Used In Spells</h2>
     <ul>
       {{#each spells}}
       <li>
@@ -22,7 +50,7 @@
       {{/each}}
     </ul>
   {{else}}
-    <h2>No Spells</h2>
+    <h2>Not Used In Any Spells</h2>
   {{/if}}
 {{/inline}}
 

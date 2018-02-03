@@ -1,49 +1,60 @@
-{{#*inline "title"}} {{query}} {{/inline}} {{#*inline "name"}}
-<div class="prose">{{query}}</div>
-<hr/>
+{{#*inline "title"}}
+    {{query}}
 {{/inline}}
+
+{{#*inline "name"}}
+  <div class="prose">{{query}}</div>
+  <hr/>
+{{/inline}}
+
 {{#*inline "content"}}
-<div id="edit">
-<form action="/search" method="get">
-<textarea name="text">{{query}}</textarea>
-<br/>
-<input type="submit"/>
-</form>
-</div>
-<h2>Pages</h2>
-<table>
+  <div id="edit">
+    <form action="/search" method="get">
+      <input type="text" name="text" value="{{query}}">
+      <br/>
+      <input type="submit"/>
+    </form>
+  </div>
+
+  <h2>Pages</h2>
+  <table>
     {{#each pages}}
     <tr>
-        <td><a href="/page/{{this.id}}">{{this.id}}</a></td>
-        <td>{{this.headline}}</td>
+      <td><a href="/page/{{this.id}}">{{this.id}}</a></td>
+      <td>{{this.headline}}</td>
     </tr>
     {{/each}}
-</table>
-<h2>Spells</h2>
-<table>
+  </table>
+
+  <h2>Spells</h2>
+  <table>
     {{#each spells}}
     <tr>
-        <td><a href="/spell/{{this.id}}">{{this.id}}</a></td>
-        <td>{{this.headline}}</td>
+      <td><a href="/spell/{{this.id}}">{{this.id}}</a></td>
+      <td>{{this.headline}}</td>
     </tr>
     {{/each}}
-</table>
-<h2>Components</h2>
-<table>
+  </table>
+
+  <h2>Components</h2>
+  <table>
     {{#each components}}
     <tr>
-        <td><a href="/component/{{this.id}}">{{this.id}}</a></td>
-        <td>{{this.headline}}</td>
+      <td><a href="/component/{{this.id}}">{{this.id}}</a></td>
+      <td>{{this.headline}}</td>
     </tr>
     {{/each}}
-</table>
-<h2>Categories</h2>
-<table>
+  </table>
+
+  <h2>Categories</h2>
+  <table>
     {{#each categories}}
     <tr>
-        <td><a href="/category/{{this.id}}">{{this.id}}</a></td>
-        <td>{{this.headline}}</td>
+      <td><a href="/category/{{this.id}}">{{this.id}}</a></td>
+      <td>{{this.headline}}</td>
     </tr>
     {{/each}}
-</table>
-{{/inline}} {{~> wrapper}}
+  </table>
+{{/inline}}
+
+{{~> wrapper}}

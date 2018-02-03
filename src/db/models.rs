@@ -97,7 +97,7 @@ impl Serialize for Spell {
         let casting_time = interval_to_hash(self.casting_time);
         let duration = self.duration.map(interval_to_hash);
         // TODO: format time better
-        
+
         // 4 is the number of fields in the struct.
         let mut state = serializer.serialize_struct("Spell", 5)?;
         state.serialize_field("name", &self.name)?;

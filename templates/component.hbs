@@ -1,8 +1,29 @@
-{{#*inline "title"}} {{component.name}} {{/inline}} {{#*inline "name"}}
-<h1>Component: {{component.name}}</h1>
-<a href="/component/{{component.name}}?edit=true">Edit</a>
-{{/inline}} {{#*inline "content"}}
-<div class="prose">
+{{#*inline "title"}}
+  {{component.name}}
+{{/inline}}
+
+{{#*inline "name"}}
+  <h1>Component: {{component.name}}</h1>
+  <a href="/component/{{component.name}}?edit=true">Edit</a>
+{{/inline}}
+
+{{#*inline "content"}}
+  <div class="prose">
     {{component.description}}
-</div>
-{{/inline}} {{~> wrapper}}
+  </div>
+
+  {{#if spells}}
+    <h2>Spells</h2>
+    <ul>
+      {{#each spells}}
+      <li>
+        <a href="/spell/{{this.spell_id}}">{{this.spell_id}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <h2>No Spells</h2>
+  {{/if}}
+{{/inline}}
+
+{{~> wrapper}}

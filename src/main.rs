@@ -33,11 +33,13 @@ use rocket::response::content;
 struct QuerySearch {
     text: String,
 }
+
 #[derive(Serialize, Queryable, Debug)]
 struct SearchResult {
     id: String,
     headline: String,
 }
+
 #[derive(Serialize)]
 struct SearchContext {
     query: String,
@@ -46,6 +48,7 @@ struct SearchContext {
     components: Vec<SearchResult>,
     categories: Vec<SearchResult>,
 }
+
 #[get("/search?<search>")]
 fn search_all(conn: db::Conn, search: QuerySearch) -> Template {
     use diesel_full_text_search::*;
@@ -54,34 +57,43 @@ fn search_all(conn: db::Conn, search: QuerySearch) -> Template {
     use db::schema::component::dsl::component;
     use db::schema::category::dsl::category;
     let query = plainto_tsquery(&search.text);
-    let pagecontent = (db::schema::page::name.concat(" ")
-                      .concat(db::schema::page::text));
-    let spellcontent = (db::schema::spell::name.concat(" ")
-                      .concat(db::schema::spell::description));
-    let componentcontent = (db::schema::component::name.concat(" ")
-                      .concat(db::schema::component::description));
-    let categorycontent = (db::schema::category::name.concat(" ")
-                      .concat(db::schema::category::description));
+
+    let pagecontent = db::schema::page::name.concat(" ")
+                      .concat(db::schema::page::text);
+
+    let spellcontent = db::schema::spell::name.concat(" ")
+                      .concat(db::schema::spell::description);
+
+    let componentcontent = db::schema::component::name.concat(" ")
+                      .concat(db::schema::component::description);
+
+    let categorycontent = db::schema::category::name.concat(" ")
+                      .concat(db::schema::category::description);
+
     let pages : Vec<SearchResult> = page
         .select((db::schema::page::name, ts_headline(&pagecontent, &query)))
         .filter(query.matches(to_tsvector(&pagecontent)))
         .load::<SearchResult>(&*conn)
         .expect("Failure searching pages");
+
     let spells : Vec<SearchResult> = spell
         .select((db::schema::spell::name, ts_headline(&spellcontent, &query)))
         .filter(query.matches(to_tsvector(&spellcontent)))
         .load::<SearchResult>(&*conn)
         .expect("Failure searching spells");
+
     let components : Vec<SearchResult> = component
         .select((db::schema::component::name, ts_headline(&componentcontent, &query)))
         .filter(query.matches(to_tsvector(&componentcontent)))
         .load::<SearchResult>(&*conn)
         .expect("Failure searching components");
+
     let categories : Vec<SearchResult> = category
         .select((db::schema::category::name, ts_headline(&categorycontent, &query)))
         .filter(query.matches(to_tsvector(&categorycontent)))
         .load::<SearchResult>(&*conn)
         .expect("Failure searching categories");
+
     let ctx = SearchContext{
         query: search.text,
         pages: pages,
@@ -194,14 +206,39 @@ fn get_categories(conn: db::Conn) -> Template {
 #[get("/component/<name>")]
 fn get_single_component(conn: db::Conn, name: String) -> Template {
     use db::schema::component::dsl::component;
-    let mut ctx = HashMap::new();
+    // use db::schema::component_subset::dsl::component_subset;
+    use db::schema::spell_component::dsl::spell_component;
+
     let thiscomponent = component
         .find(name)
         .get_result::<Component>(&*conn)
         .expect("Failed to fetch component");
-    ctx.insert("component", thiscomponent);
+
+    // Not sure what to do with this precisely, yet
+    // let subsets = component_subset
+
+    let spells = spell_component
+        .filter(db::schema::spell_component::dsl::component_id.eq(&thiscomponent.name))
+        .order(db::schema::spell_component::dsl::spell_id)
+        .load::<SpellComponent>(&*conn)
+        .expect("Failed to fetch spells for component");
+
+    let ctx = ComponentContext {
+        component: thiscomponent,
+        // Other things, probably?
+        spells: spells,
+    };
+
     Template::render("component", ctx)
 }
+
+#[derive(Serialize)]
+struct ComponentContext {
+    component: Component,
+    // Other things, probably?
+    spells: Vec<SpellComponent>,
+}
+
 #[get("/components")]
 fn get_components(conn: db::Conn) -> Template {
     use db::schema::component::dsl::component;

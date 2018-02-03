@@ -8,6 +8,7 @@ use diesel::pg::PgConnection;
 use diesel::r2d2;
 use self::dotenv::dotenv;
 use std::env;
+use std::time::Duration;
 
 use diesel::r2d2::ConnectionManager;
 
@@ -22,7 +23,11 @@ pub fn init_pool() -> Pool {
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let manager = ConnectionManager::<PgConnection>::new(database_url);
-    r2d2::Pool::new(manager).expect("db pool")
+    r2d2::Pool::builder()
+        .max_size(10)
+        .min_idle(Some(1))
+        .max_lifetime(Some(Duration::new(300,0)))
+        .build(manager).expect("db pool")
 }
 
 // Connection request guard type: a wrapper around an r2d2 pooled connection.

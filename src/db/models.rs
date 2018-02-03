@@ -67,7 +67,7 @@ use std::collections::HashMap;
 fn interval_to_hash(i: PgInterval) -> HashMap<&'static str, i32> {
     let mut hm : HashMap<&'static str, i32> = HashMap::new();
     let mut months = i.months;
-    let mut days = i.days;
+    let days = i.days;
     let mut mcs = i.microseconds;
     if months > 12 {
         hm.insert("years", months/12);

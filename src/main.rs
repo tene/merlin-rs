@@ -23,12 +23,7 @@ mod db;
 mod routes;
 
 extern crate rocket_contrib;
-use db::models::{Page};
-use std::collections::HashMap;
 use rocket_contrib::Template;
-use rocket::response::Redirect;
-use rocket::request::Form;
-use rocket::response::content;
 
 #[derive(FromForm)]
 struct QuerySearch {

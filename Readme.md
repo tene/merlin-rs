@@ -37,6 +37,7 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
 * Cleanups
     * Find a way to unify templates for better reuse
     * ~~Move route handlers into dedicated modules (Pages, Spells, Components, Categories)~~
+    * Clean up various warnings
 * Authentication and user accounts (avoid spambots)
 * Tweak schema
     * Replace Intervals with something simpler to model, like integer milliseconds

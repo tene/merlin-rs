@@ -21,6 +21,7 @@ use diesel::prelude::*;
 
 mod db;
 mod routes;
+mod auth;
 
 extern crate rocket_contrib;
 use rocket_contrib::Template;
@@ -123,6 +124,9 @@ fn main() {
                 routes::spells::get_spells,
                 routes::spells::get_single_spell,
                 search_all,
+                auth::admin,
+                auth::login,
+                auth::login_post,
             ],
         )
         .attach(Template::fairing())

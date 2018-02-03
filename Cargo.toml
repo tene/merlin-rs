@@ -6,6 +6,7 @@ authors = ["tene"]
 [dependencies]
 rocket = "0.3.6"
 rocket_codegen = "0.3.6"
+rocket-simpleauth = "0.3.0"
 bigdecimal = "0.0.10"
 diesel = { version = "1.1.1", features = ["postgres", "numeric", "r2d2"] }
 diesel_full_text_search = "1.0.0"

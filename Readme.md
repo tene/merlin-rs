@@ -37,7 +37,13 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
 * Cleanups
     * Find a way to unify templates for better reuse
     * ~~Move route handlers into dedicated modules (Pages, Spells, Components, Categories)~~
+    * App-wide context wrapper for passing user (and other stuff) to all templates
+    * Macro for declaring routes, to always get conn and user
 * Authentication and user accounts (avoid spambots)
+    * ~~Trivial authentication in a session~~
+    * Less bad login page (move to site header maybe?)
+    * Store accounts in the database?
+    * Logout?
 * Tweak schema
     * Replace Intervals with something simpler to model, like integer milliseconds
     * Replace Numeric with something simpler to model (Real?)

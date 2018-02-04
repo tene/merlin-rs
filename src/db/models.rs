@@ -71,7 +71,7 @@ fn interval_to_hash(i: PgInterval) -> HashMap<&'static str, i32> {
     let mut mcs = i.microseconds;
     if months > 12 {
         hm.insert("years", months/12);
-        months = months % 12;
+        months %= 12;
     }
     if months > 0 {
         hm.insert("months", i.months);
@@ -79,21 +79,21 @@ fn interval_to_hash(i: PgInterval) -> HashMap<&'static str, i32> {
     if days > 0 {
         hm.insert("days", i.days);
     }
-    if mcs > 3600000000 {
-        hm.insert("hours", (mcs/3600000000) as i32);
-        mcs = mcs % 3600000000;
+    if mcs > 3_600_000_000 {
+        hm.insert("hours", (mcs/3_600_000_000) as i32);
+        mcs %= 3_600_000_000;
     }
-    if mcs > 60000000 {
-        hm.insert("minutes", (mcs/60000000) as i32);
-        mcs = mcs % 60000000;
+    if mcs > 60_000_000 {
+        hm.insert("minutes", (mcs/60_000_000) as i32);
+        mcs %= 60_000_000;
     }
-    if mcs > 1000000 {
-        hm.insert("seconds", (mcs/1000000) as i32);
-        mcs = mcs % 1000000;
+    if mcs > 1_000_000 {
+        hm.insert("seconds", (mcs/1_000_000) as i32);
+        mcs %= 1_000_000;
     }
     if mcs > 1000 {
         hm.insert("milliseconds", (mcs/1000) as i32);
-        //mcs = mcs % 1000;
+        //mcs %= 1000;
     }
     hm
 }

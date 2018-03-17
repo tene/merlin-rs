@@ -53,8 +53,10 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * ~~Better colorscheme~~
     * Better ~~header,~~ sidebar, navbar, and main content
     * Better forms
-    * Render item content formatting
-    * Convert current markup from weird old Textile formatting to Markdown
+    * ~~Render item content formatting~~
+    * ~~Convert current markup from weird old Textile formatting to Markdown~~
+        * ~~Links~~
+        * Audit for any other formatting to convert
     * Prettier search box
 * Build improvements
     * Script to "docker build" with dedicated persistent target directory

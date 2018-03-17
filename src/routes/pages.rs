@@ -11,7 +11,7 @@ use ::db::models::{Page};
 use std::collections::HashMap;
 use rocket::response::Redirect;
 use rocket::request::Form;
-use rocket::http::uri::{URI, Segments};
+use rocket::http::uri::{ Uri, Segments};
 use ::routes::auth::UserPass;
 
 #[post("/page", data = "<page_form>")]
@@ -25,7 +25,7 @@ fn post_page(_user: UserPass<String>, conn: DBConn, page_form: Form<Page>) -> Re
         .set(new_page)
         .execute(&*conn);
     match insert_count {
-        Ok(_) => Ok(Redirect::to(&format!("/page/{}", new_page.name))),
+        Ok(_) => Ok(Redirect::to(format!("/page/{}", new_page.name))),
         Err(e) => Err(format!("Failed: {}", e).to_string()),
     }
 }
@@ -48,7 +48,7 @@ fn new_page(_user: UserPass<String>, q: QueryAction) -> Result<Template, String>
 #[get("/page/<names..>?<q>")]
 fn edit_page(_user: UserPass<String>, conn: DBConn, names: Segments, q: QueryAction) -> Result<Template, String> {
     let name: String = names
-        .map(|s| URI::percent_decode(s.as_bytes()).expect("URI Decode failure").into_owned())
+        .map(|s| Uri::percent_decode(s.as_bytes()).expect("URI Decode failure").into_owned())
         .collect::<Vec<String>>()
         .join("/");
     use ::db::schema::page::dsl::page;
@@ -72,7 +72,7 @@ struct PageContext {
 #[get("/page/<names..>")]
 fn get_single_page(user: Option<UserPass<String>>, conn: DBConn, names: Segments) -> Template {
     let name: String = names
-        .map(|s| URI::percent_decode(s.as_bytes()).expect("URI Decode failure").into_owned())
+        .map(|s| Uri::percent_decode(s.as_bytes()).expect("URI Decode failure").into_owned())
         .collect::<Vec<String>>()
         .join("/");
     use ::db::schema::page::dsl::page;

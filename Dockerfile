@@ -1,5 +1,6 @@
 FROM rustlang/rust:nightly AS builder
 WORKDIR /app
+ADD deps /app/deps
 ADD Cargo.toml Cargo.lock /app/
 RUN mkdir -p /app/src && echo "fn main() {}" > /app/src/main.rs &&\
     touch -d 1980-01-01 /app/src/main.rs && \

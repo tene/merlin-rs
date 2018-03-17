@@ -1,6 +1,7 @@
 #![feature(nll)]
 #![feature(plugin)]
 #![feature(custom_derive)]
+#![feature(decl_macro)]
 #![plugin(rocket_codegen)]
 #[macro_use]
 extern crate diesel;
@@ -14,14 +15,17 @@ extern crate serde_json;
 extern crate serde_derive;
 
 extern crate bigdecimal;
+extern crate pulldown_cmark;
+extern crate handlebars;
 
 use diesel::prelude::*;
 
 mod db;
 mod routes;
+mod template;
 
 extern crate rocket_contrib;
-use rocket_contrib::Template;
+use rocket_contrib::{Template, Engines};
 
 #[derive(FromForm)]
 struct QuerySearch {
@@ -126,7 +130,9 @@ fn main() {
                 routes::auth::login_post,
             ],
         )
-        .attach(Template::fairing())
+        .attach(Template::custom( |engines: &mut Engines| {
+            engines.handlebars.register_helper("md", Box::new(template::markdown_helper));
+        }))
         .launch();
     println!("Exiting!");
 }

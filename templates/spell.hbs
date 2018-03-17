@@ -41,4 +41,14 @@
     </li>
     {{/each}}
 </ul>
+{{#if products}}
+<ul>
+    <h2>Produces:</h2>
+    {{#each products}}
+    <li>
+        <a href="/component/{{this.component_id}}">{{this.component_id}}</a>{{#if this.notes}}: ({{this.notes}}) {{/if}}
+    </li>
+    {{/each}}
+</ul>
+{{/if}}
 {{/inline}} {{~> wrapper}}

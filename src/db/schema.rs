@@ -67,11 +67,11 @@ table! {
 }
 
 table! {
-    spell_produces (spell_id, component_id) {
+    spell_product (spell_id, component_id) {
         spell_id -> Varchar,
         component_id -> Varchar,
         notes -> Text,
-        quantity -> Nullable<Numeric>,
+        //quantity -> Nullable<Numeric>,
     }
 }
 
@@ -79,8 +79,8 @@ joinable!(spell_category -> category (category_id));
 joinable!(spell_category -> spell (spell_id));
 joinable!(spell_component -> component (component_id));
 joinable!(spell_component -> spell (spell_id));
-joinable!(spell_produces -> component (component_id));
-joinable!(spell_produces -> spell (spell_id));
+joinable!(spell_product -> component (component_id));
+joinable!(spell_product -> spell (spell_id));
 
 allow_tables_to_appear_in_same_query!(
     category,
@@ -91,5 +91,5 @@ allow_tables_to_appear_in_same_query!(
     spell,
     spell_category,
     spell_component,
-    spell_produces,
+    spell_product,
 );

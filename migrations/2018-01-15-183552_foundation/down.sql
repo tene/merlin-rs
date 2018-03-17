@@ -6,4 +6,4 @@ DROP TABLE page;
 DROP TABLE spell;
 DROP TABLE spell_category;
 DROP TABLE spell_component;
-DROP TABLE spell_produces;
+DROP TABLE spell_product;

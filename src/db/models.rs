@@ -139,3 +139,14 @@ pub struct SpellComponent {
     pub notes: String,
     //pub quantity: Option<BigDecimal>,
 }
+
+#[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]
+#[table_name = "spell_product"]
+#[belongs_to(Spell)]
+#[primary_key(spell_id, component_id)]
+pub struct SpellProduct {
+    pub spell_id: String,
+    pub component_id: String,
+    pub notes: String,
+    //pub quantity: Option<BigDecimal>,
+}

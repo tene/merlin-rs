@@ -8,6 +8,7 @@ Merlin is a web app providing a CRUD interface for a friend's RPG.
     * ~~Spells per Category~~
     * ~~Component Subsets and Supersets~~
     * ~~Category requirements~~
+    * ~~Spell Products~~
     * (Maybe) Recursively pull up Subsets and Supersets
         * A spell using component A may also list (indented) components B or C, if B or C could be substituted in for A.
         * A component used in spell X may also list (indented) spells Y or Z, if Y or Z could use this component as a substitution.

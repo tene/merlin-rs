@@ -2,7 +2,7 @@ use diesel::prelude::*;
 
 use rocket_contrib::Template;
 
-use ::db::models::{Component, ComponentSubset, SpellComponent};
+use ::db::models::{Component, ComponentSubset, SpellComponent, SpellProduct};
 
 use ::db::Conn as DBConn;
 use ::db::schema as Schema;
@@ -14,6 +14,7 @@ fn get_single_component(conn: DBConn, name: String) -> Template {
     use ::db::schema::component::dsl::component;
     use ::db::schema::component_subset::dsl::component_subset;
     use ::db::schema::spell_component::dsl::spell_component;
+    use ::db::schema::spell_product::dsl::spell_product;
 
     let thiscomponent = component
         .find(name)
@@ -38,11 +39,18 @@ fn get_single_component(conn: DBConn, name: String) -> Template {
         .load::<SpellComponent>(&*conn)
         .expect("Failed to fetch spells for component");
 
+    let producers = spell_product
+        .filter(Schema::spell_product::dsl::component_id.eq(&thiscomponent.name))
+        .order(Schema::spell_product::spell_id)
+        .load::<SpellProduct>(&*conn)
+        .expect("Failed to fetch producers for spell");
+
     let ctx = ComponentContext {
         component: thiscomponent,
         supersets: superset_of,
         subsets: subset_of,
         spells: spells,
+        producers: producers,
     };
 
     Template::render("component", ctx)
@@ -54,6 +62,7 @@ struct ComponentContext {
     supersets: Vec<ComponentSubset>,
     subsets: Vec<ComponentSubset>,
     spells: Vec<SpellComponent>,
+    producers: Vec<SpellProduct>,
 }
 
 #[get("/components")]

@@ -21,8 +21,6 @@
       </li>
       {{/each}}
     </ul>
-  {{else}}
-    <h2>Cannot Stand In For More General Variations</h2>
   {{/if}}
 
   {{#if supersets}}
@@ -34,8 +32,6 @@
       </li>
       {{/each}}
     </ul>
-  {{else}}
-    <h2>No Specialized Variations</h2>
   {{/if}}
 
 
@@ -52,6 +48,19 @@
   {{else}}
     <h2>Not Used In Any Spells</h2>
   {{/if}}
+
+  {{#if producers}}
+    <h2>Produced by Spells</h2>
+    <ul>
+      {{#each producers}}
+      <li>
+        <a href="/spell/{{this.spell_id}}">{{this.spell_id}}</a>
+      </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
 {{/inline}}
+
 
 {{~> wrapper}}

@@ -50,7 +50,7 @@ CREATE TABLE spell_component (
     quantity numeric
 );
 
-CREATE TABLE spell_produces (
+CREATE TABLE spell_product (
     spell_id character varying(512) NOT NULL,
     component_id character varying(256) NOT NULL,
     notes text DEFAULT ''::text NOT NULL,
@@ -82,8 +82,8 @@ ALTER TABLE ONLY spell_component
 ALTER TABLE ONLY spell
     ADD CONSTRAINT spell_pkey PRIMARY KEY (name);
 
-ALTER TABLE ONLY spell_produces
-    ADD CONSTRAINT spell_produces_pkey PRIMARY KEY (spell_id, component_id);
+ALTER TABLE ONLY spell_product
+    ADD CONSTRAINT spell_product_pkey PRIMARY KEY (spell_id, component_id);
 
 ALTER TABLE ONLY category_link
     ADD CONSTRAINT category_link_category_id_fkey FOREIGN KEY (category_id) REFERENCES category(name) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -109,8 +109,8 @@ ALTER TABLE ONLY spell_component
 ALTER TABLE ONLY spell_component
     ADD CONSTRAINT spell_component_spell_id_fkey FOREIGN KEY (spell_id) REFERENCES spell(name) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ONLY spell_produces
-    ADD CONSTRAINT spell_produces_component_id_fkey FOREIGN KEY (component_id) REFERENCES component(name) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY spell_product
+    ADD CONSTRAINT spell_product_component_id_fkey FOREIGN KEY (component_id) REFERENCES component(name) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ONLY spell_produces
-    ADD CONSTRAINT spell_produces_spell_id_fkey FOREIGN KEY (spell_id) REFERENCES spell(name) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY spell_product
+    ADD CONSTRAINT spell_product_spell_id_fkey FOREIGN KEY (spell_id) REFERENCES spell(name) ON UPDATE CASCADE ON DELETE CASCADE;

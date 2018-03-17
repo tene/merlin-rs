@@ -2,7 +2,7 @@ use diesel::prelude::*;
 
 use rocket_contrib::Template;
 
-use ::db::models::{Category, CategoryLink, Spell, SpellCategory, SpellComponent};
+use ::db::models::{Category, CategoryLink, Spell, SpellCategory, SpellComponent, SpellProduct};
 
 use ::db::Conn as DBConn;
 use ::db::schema as Schema;
@@ -68,6 +68,7 @@ struct SpellContext {
     spell: Spell,
     categories: Vec<SpellCategory>,
     components: Vec<SpellComponent>,
+    products: Vec<SpellProduct>,
 }
 
 #[get("/spell/<name>")]
@@ -75,6 +76,7 @@ fn get_single_spell(conn: DBConn, name: String) -> Template {
     use ::db::schema::spell::dsl::spell;
     use ::db::schema::spell_category::dsl::spell_category;
     use ::db::schema::spell_component::dsl::spell_component;
+    use ::db::schema::spell_product::dsl::spell_product;
     let item = spell
         .find(name)
         .get_result::<Spell>(&*conn)
@@ -89,10 +91,16 @@ fn get_single_spell(conn: DBConn, name: String) -> Template {
         .order(Schema::spell_component::component_id)
         .load::<SpellComponent>(&*conn)
         .expect("Failed to fetch components for spell");
+    let products = spell_product
+        .filter(Schema::spell_product::dsl::spell_id.eq(&item.name))
+        .order(Schema::spell_product::component_id)
+        .load::<SpellProduct>(&*conn)
+        .expect("Failed to fetch products for spell");
     let ctx = SpellContext {
         spell: item,
         categories: cats,
         components: cmps,
+        products: products,
     };
     Template::render("spell", ctx)
 }

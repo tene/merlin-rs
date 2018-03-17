@@ -11,6 +11,7 @@ use ::db::models::{Page};
 use std::collections::HashMap;
 use rocket::response::Redirect;
 use rocket::request::Form;
+use rocket::http::uri::Segments;
 use ::routes::auth::UserPass;
 
 #[post("/page", data = "<page_form>")]
@@ -44,8 +45,9 @@ fn new_page(_user: UserPass<String>, q: QueryAction) -> Result<Template, String>
     //Ok(Template::render("page_edit", ""))
 }
 
-#[get("/page/<name>?<q>")]
-fn edit_page(_user: UserPass<String>, conn: DBConn, name: String, q: QueryAction) -> Result<Template, String> {
+#[get("/page/<names..>?<q>")]
+fn edit_page(_user: UserPass<String>, conn: DBConn, names: Segments, q: QueryAction) -> Result<Template, String> {
+    let name: String = names.collect::<Vec<&str>>().join("/");
     use ::db::schema::page::dsl::page;
     let mut ctx = HashMap::new();
     let thispage = page.find(name)
@@ -64,8 +66,9 @@ struct PageContext {
     page: Page,
     user: Option<String>,
 }
-#[get("/page/<name>")]
-fn get_single_page(user: Option<UserPass<String>>, conn: DBConn, name: String) -> Template {
+#[get("/page/<names..>")]
+fn get_single_page(user: Option<UserPass<String>>, conn: DBConn, names: Segments) -> Template {
+    let name: String = names.collect::<Vec<&str>>().join("/");
     use ::db::schema::page::dsl::page;
     let thispage = page.find(name)
         .get_result::<Page>(&*conn)

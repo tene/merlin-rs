@@ -1,4 +1,5 @@
 use db::schema::*;
+use bigdecimal::BigDecimal;
 
 #[derive(Queryable, Serialize, AsChangeset)]
 #[table_name = "category"]
@@ -128,8 +129,25 @@ pub struct SpellCategory {
     pub level: i32,
 }
 
-//use bigdecimal::BigDecimal;
-#[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]
+impl Serialize for SpellComponent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let quantity = self.quantity.clone()
+            .map(|q| format!("{}", q));
+
+        // 4 is the number of fields in the struct.
+        let mut state = serializer.serialize_struct("SpellComponent", 4)?;
+        state.serialize_field("spell_id", &self.spell_id)?;
+        state.serialize_field("component_id", &self.component_id)?;
+        state.serialize_field("notes", &self.notes)?;
+        state.serialize_field("quantity", &quantity)?;
+        state.end()
+    }
+}
+
+#[derive(Identifiable, Queryable, Associations, PartialEq)]
 #[table_name = "spell_component"]
 #[belongs_to(Spell)]
 #[primary_key(spell_id, component_id)]
@@ -137,10 +155,28 @@ pub struct SpellComponent {
     pub spell_id: String,
     pub component_id: String,
     pub notes: String,
-    //pub quantity: Option<BigDecimal>,
+    pub quantity: Option<BigDecimal>,
 }
 
-#[derive(Identifiable, Queryable, Associations, PartialEq, Serialize)]
+impl Serialize for SpellProduct {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let quantity = self.quantity.clone()
+            .map(|q| format!("{}", q));
+
+        // 4 is the number of fields in the struct.
+        let mut state = serializer.serialize_struct("SpellProduct", 4)?;
+        state.serialize_field("spell_id", &self.spell_id)?;
+        state.serialize_field("component_id", &self.component_id)?;
+        state.serialize_field("notes", &self.notes)?;
+        state.serialize_field("quantity", &quantity)?;
+        state.end()
+    }
+}
+
+#[derive(Identifiable, Queryable, Associations, PartialEq)]
 #[table_name = "spell_product"]
 #[belongs_to(Spell)]
 #[primary_key(spell_id, component_id)]
@@ -148,5 +184,5 @@ pub struct SpellProduct {
     pub spell_id: String,
     pub component_id: String,
     pub notes: String,
-    //pub quantity: Option<BigDecimal>,
+    pub quantity: Option<BigDecimal>,
 }
